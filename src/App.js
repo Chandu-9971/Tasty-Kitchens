@@ -34,7 +34,6 @@ class App extends Component {
       const cartItemData = []
       cartItemData.push({...list, quantity: 1})
       // console.log(cartItemData)
-      //  localStorage.setItem('cartData', JSON.stringify(cartItemData))
       this.setState({temporaryData: cartItemData, addBtn: true})
     } else {
       const object = localData.find(each => each.name === list.name)
@@ -51,8 +50,7 @@ class App extends Component {
       } else {
         localData.push({...list, quantity: 1})
         //  console.log(localData)
-        //   localStorage.setItem('cartData', JSON.stringify(localData))
-        this.setState({temporaryData: localData, addBtn: true})
+        this.setState({temporaryData: localData, addBtn: False})
       }
     }
   }
@@ -66,12 +64,11 @@ class App extends Component {
       if (each.name === name) {
         const count = cartValue
         //  console.log(count)
-        return {...each, quantity: count}
+        return {each, quantity: count}
       }
       return each
     })
     //  console.log(cartValue)
-    //  localStorage.setItem('cartData', JSON.stringify(cartItemData))
     this.setState({temporaryData: cartItemData, addBtn: true})
   }
 
@@ -91,7 +88,7 @@ class App extends Component {
   }
 
   stateEmpty = () => {
-    this.setState({temporaryData: [], addBtn: true})
+    this.setState({temporaryData: [], addBtn: false})
   }
 
   render() {
@@ -119,7 +116,7 @@ class App extends Component {
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute
             exact
-            path="/restaurant/:id"
+            path="/restaurant/id"
             component={RestaurantDetails}
           />
           <ProtectedRoute exact path="/cart" component={Cart} />

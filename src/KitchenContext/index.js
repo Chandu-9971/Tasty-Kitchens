@@ -5,7 +5,6 @@ const KitchenContext = React.createContext({
   filter: () => {},
   onAddBtn: () => {},
   sortByOptions: [],
-  temporaryData: [],
   removeItem: () => {},
   updateLocalData: () => {},
   checkZero: () => {},

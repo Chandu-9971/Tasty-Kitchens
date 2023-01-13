@@ -1,87 +1,31 @@
-import Slider from 'react-slick'
-import {Component} from 'react'
-import Cookies from 'js-cookie'
-import Loader from 'react-loader-spinner'
+import {Link} from 'react-router-dom'
 
 import './index.css'
 
-class Carousel extends Component {
-  state = {imagesList: [], status: 'progress'}
+const RestaurantList = props => {
+  const {list} = props
+  const {id, name, imageUrl, rating, cuisine, review} = list
 
-  componentDidMount() {
-    this.getCarousel()
-  }
-
-  getCarousel = async () => {
-    const token = Cookies.get('jwt_token')
-    const options = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-    const url = 'https://apis.ccbp.in/restaurants-list/offers'
-    const response = await fetch(url, options)
-    const data = await response.json()
-    console.log(data)
-    this.setState({imagesList: data.offers, status: 'success'})
-  }
-
-  getList = () => {
-    const {imagesList} = this.state
-    const settings = {
-      dots: true,
-      infinite: true,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      speed: 5000,
-      autoplaySpeed: 4000,
-      cssEase: 'linear',
-    }
-
-    return (
-      <Slider {...settings} className="carousel-container">
-        {imagesList.map(each => (
-          <div className="carousel" key={each.id}>
+  return (
+    <Link to={`/restaurant/${id}`} className="link-details">
+      <li className="restaurant-details">
+        <img src={imageUrl} alt="restaurant" className="res-image" />
+        <div className="rating-name-cuisine">
+          <h1 className="res-name">{name}</h1>
+          <p className="cuisine-name">{cuisine}</p>
+          <div className="rating-cont">
             <img
-              src={each.image_url}
-              alt="offer"
-              className="carousel-img"
-              key={each.id}
+              src="https://res.cloudinary.com/dydlvwdqp/image/upload/v1634122719/7_Rating_t6jomz.jpg"
+              alt="rating"
+              className="star"
             />
+            <p className="rating">{rating}</p>
+            <h1>{review}</h1>
           </div>
-        ))}
-      </Slider>
-    )
-  }
-
-  loader = () => (
-    <div
-      className="products-loader-container"
-      testid="restaurants-offers-loader"
-    >
-      <Loader type="Oval" color="orange" height="50" width="50" />
-    </div>
+        </div>
+      </li>
+    </Link>
   )
-
-  loadingStatus = () => {
-    const {status} = this.state
-    switch (status) {
-      case 'success':
-        return this.getList()
-      case 'progress':
-        return this.loader()
-      case 'failure':
-        return this.failure()
-      default:
-        return null
-    }
-  }
-
-  render() {
-    return <div className="container">{this.loadingStatus()}</div>
-  }
 }
 
-export default Carousel
+export default RestaurantList
